@@ -83,7 +83,7 @@ namespace Serie_List_Editor
                     Width = m_boxWidth,
                     SelectedValue = m_data.Season[i],
                 };
-                _boxS.DataContextChanged += _boxS_DataContextChanged;
+                _boxS.DataContextChanged += BoxS_DataContextChanged;
 
                 Grid.SetColumn(_boxS, 1);
                 Grid.SetRow(_boxS, i);
@@ -101,7 +101,7 @@ namespace Serie_List_Editor
                     Width = m_boxWidth,
                     SelectedValue = m_data.Episode[i]
                 };
-                _boxE.DataContextChanged += _boxE_DataContextChanged;
+                _boxE.DataContextChanged += BoxE_DataContextChanged;
 
                 Grid.SetColumn(_boxE, 2);
                 Grid.SetRow(_boxE, i);
@@ -111,22 +111,43 @@ namespace Serie_List_Editor
                 {
                     _boxE.Items.Add(j + 1);
                 }
+
+                //NoteBox
+                TextBox _noteTextBlock = new TextBox()
+                {
+                    Foreground = Brushes.Yellow,
+                    BorderBrush = Brushes.Cyan,
+                    Background = Brushes.Gray,
+                    Height = m_boxHeight,
+                    Width = m_boxWidth,
+                    Text = m_data.Note[i],
+                };
+                _noteTextBlock.TextChanged += NoteTextBlock_TextChanged;
+                //TODO setcoolumn
+                //TODO setrow
+                //TODO add to m_grid children
+                //TODO add to DrawContent()
             }
         }
 
-        private void _boxE_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void NoteTextBlock_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void BoxE_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             MessageBox.Show($"{e.NewValue}");
         }
 
-        private void _boxS_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void BoxS_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             MessageBox.Show($"{e.NewValue}");
         }
 
         private void OnTextChangeGrid(object sender, TextChangedEventArgs e)
         {
-            MessageBox.Show($"{e.Source}");
+            MessageBox.Show($"{sender}");
             if (m_data.Title.Contains(sender))
             {
                 MessageBox.Show($"its here");

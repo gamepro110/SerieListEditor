@@ -14,17 +14,20 @@ namespace Serie_List_Editor
             Title = new List<string>();
             Season = new List<int?>();
             Episode = new List<int?>();
+            Note = new List<string>();
         }
 
         public List<string> Title;
         public List<int?> Episode;
         public List<int?> Season;
+        public List<string> Note;
 
-        public void AddNewEntry(string title, int? season, int? episode)
+        public void AddNewEntry(string title, int? season, int? episode, string note)
         {
             Title.Add(title);
             Season.Add(season);
             Episode.Add(episode);
+            Note.Add(note);
         }
 
         public void RemoveEntry(int index)
@@ -34,6 +37,7 @@ namespace Serie_List_Editor
                 Title.RemoveAt(index);
                 Season.RemoveAt(index);
                 Episode.RemoveAt(index);
+                Note.RemoveAt(index);
             }
         }
     }
