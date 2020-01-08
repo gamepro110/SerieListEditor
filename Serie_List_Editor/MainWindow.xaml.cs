@@ -64,7 +64,7 @@ namespace Serie_List_Editor
 
         private void Open_Button_Click(object sender, RoutedEventArgs e)
         {
-            //m_grid = new Grid();
+            MakeGrid();
 
             OpenFileDialog _dialog = new OpenFileDialog
             {
@@ -97,9 +97,9 @@ namespace Serie_List_Editor
         {
             SaveDataJson _data = new SaveDataJson();
 
-            _data.AddNewEntry("Arrow", 03, 16);
-            _data.AddNewEntry("Flash", 05, 06);
-            _data.AddNewEntry("The 100", 01, 37);
+            _data.AddNewEntry("Arrow", 03, 16, "");
+            _data.AddNewEntry("Flash", 05, 06, "");
+            _data.AddNewEntry("The 100", 01, 37, "");
 
             SaveFileDialog _dialog = new SaveFileDialog
             {
@@ -141,7 +141,7 @@ namespace Serie_List_Editor
 
         private void New_Entry_Button_Click(object sender, RoutedEventArgs e)
         {
-            m_data.AddNewEntry("Title", null, null);
+            m_data.AddNewEntry("Title", null, null, "Empty note");
 
             MakeGrid();
             DrawContent();
