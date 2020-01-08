@@ -7,16 +7,8 @@ using System.Threading.Tasks;
 namespace Serie_List_Editor
 {
     [Serializable]
-    internal class SaveDataJson
+    internal struct SaveDataJson
     {
-        public SaveDataJson()
-        {
-            Title = new List<string>();
-            Season = new List<int?>();
-            Episode = new List<int?>();
-            Note = new List<string>();
-        }
-
         public List<string> Title;
         public List<int?> Episode;
         public List<int?> Season;
