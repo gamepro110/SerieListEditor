@@ -83,13 +83,13 @@ namespace Serie_List_Editor
                 {
                     m_data = new SaveDataJson();
                     m_data = JsonConvert.DeserializeObject<SaveDataJson>(File.ReadAllText(m_file));
+
+                    DrawContent();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"{MyConsts.FileUnreadable} {GetFileName(_dialog.FileName)} \n{ex.Message}");
                 }
-
-                DrawContent();
             }
         }
 
@@ -141,9 +141,9 @@ namespace Serie_List_Editor
 
         private void New_Entry_Button_Click(object sender, RoutedEventArgs e)
         {
+            MakeGrid();
             m_data.AddNewEntry("Title", null, null, "Empty note");
 
-            MakeGrid();
             DrawContent();
         }
 
