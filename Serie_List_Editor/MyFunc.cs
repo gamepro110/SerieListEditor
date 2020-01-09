@@ -82,39 +82,39 @@ namespace Serie_List_Editor
                 m_grid.Children.Add(_titleTextBlock);
 
                 //Season
-                ComboBox _boxS = new ComboBox
+                ComboBox _boxSeason = new ComboBox
                 {
                     Height = m_boxHeight,
                     Width = m_boxWidth,
                     SelectedValue = m_data.Season[i],
                 };
-                _boxS.DataContextChanged += BoxS_DataContextChanged;
+                _boxSeason.DataContextChanged += BoxS_DataContextChanged;
 
-                Grid.SetColumn(_boxS, 1);
-                Grid.SetRow(_boxS, i);
-                m_grid.Children.Add(_boxS);
+                Grid.SetColumn(_boxSeason, 1);
+                Grid.SetRow(_boxSeason, i);
+                m_grid.Children.Add(_boxSeason);
 
                 for (int j = 0; j < 100; j++)
                 {
-                    _boxS.Items.Add(j + 1);
+                    _boxSeason.Items.Add(j + 1);
                 }
 
                 //Episode number
-                ComboBox _boxE = new ComboBox
+                ComboBox _boxEpisode = new ComboBox
                 {
                     Height = m_boxHeight,
                     Width = m_boxWidth,
                     SelectedValue = m_data.Episode[i]
                 };
-                _boxE.DataContextChanged += BoxE_DataContextChanged;
+                _boxEpisode.DataContextChanged += BoxE_DataContextChanged;
 
-                Grid.SetColumn(_boxE, 2);
-                Grid.SetRow(_boxE, i);
-                m_grid.Children.Add(_boxE);
+                Grid.SetColumn(_boxEpisode, 2);
+                Grid.SetRow(_boxEpisode, i);
+                m_grid.Children.Add(_boxEpisode);
 
                 for (int j = 0; j < 100; j++)
                 {
-                    _boxE.Items.Add(j + 1);
+                    _boxEpisode.Items.Add(j + 1);
                 }
 
                 //NoteBox
@@ -128,7 +128,7 @@ namespace Serie_List_Editor
                     //Text = (m_data.Note.Count == m_data.Title.Count) ? m_data.Note[i] : "Empty Note",
                 };
                 _noteTextBlock.TextChanged += NoteTextBlock_TextChanged;
-                _noteTextBlock.GotFocus += _noteTextBlock_GotFocus;
+                _noteTextBlock.GotFocus += NoteTextBlock_GotFocus;
 
                 if (m_data.Note.Count == m_data.Title.Count)
                 {
@@ -147,36 +147,28 @@ namespace Serie_List_Editor
             }
         }
 
-        private void _noteTextBlock_GotFocus(object sender, RoutedEventArgs e)
+        private void NoteTextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            MessageBox.Show($"{e.Source}");
         }
 
-        /// <summary>
-        /// Gets called when the NoteTextBlocks value is changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void NoteTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
+            MessageBox.Show($"{e.Source}");
         }
 
-        /// <summary>
-        /// Gets called when the EpisodeDropDowns value is changed
-        /// </summary>
         private void BoxE_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             MessageBox.Show($"{e.NewValue}");
         }
 
-        /// <summary>
-        /// Gets called when the SeasonsDropDowns value is changed
-        /// </summary>
         private void BoxS_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            m_data.Season.IndexOf((int)e.OldValue);
-
+            int _index = m_data.Season.IndexOf((int)e.OldValue);
+            MessageBox.Show($"{_index}");
+            m_data.Season[_index] = (int)e.NewValue;
             MessageBox.Show($"{e.NewValue}");
+
             //TODO indexof()
         }
 
@@ -184,11 +176,9 @@ namespace Serie_List_Editor
         {
             var _text = e.OriginalSource as TextBox;
             OldText = _text.Text;
+            MessageBox.Show(_text.Text);
         }
 
-        /// <summary>
-        /// Gets called when the TitleTextBlocks value is changed
-        /// </summary>
         private void TitleTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
