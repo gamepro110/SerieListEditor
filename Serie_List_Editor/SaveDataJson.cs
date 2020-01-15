@@ -14,7 +14,7 @@ namespace Serie_List_Editor
         public List<int?> Season;
         public List<string> Note;
 
-        public void AddNewEntry(string title, int? season, int? episode, string note)
+        public void AddNewEntry(string title = "Title", int? season = 0, int? episode = 0, string note = "Empty note")
         {
             Title.Add(title);
             Season.Add(season);

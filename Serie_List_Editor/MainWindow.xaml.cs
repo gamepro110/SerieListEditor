@@ -97,9 +97,9 @@ namespace Serie_List_Editor
         {
             SaveDataJson _data = new SaveDataJson();
 
-            _data.AddNewEntry("Arrow", 03, 16, "");
-            _data.AddNewEntry("Flash", 05, 06, "");
-            _data.AddNewEntry("The 100", 01, 37, "");
+            _data.AddNewEntry("Arrow", 03, 16);
+            _data.AddNewEntry("Flash", 05, 06);
+            _data.AddNewEntry("The 100", 01, 37);
 
             SaveFileDialog _dialog = new SaveFileDialog
             {
@@ -124,7 +124,9 @@ namespace Serie_List_Editor
 
             if (_dialog.ShowDialog() == true)
             {
-                File.WriteAllText(_dialog.FileName, JsonConvert.SerializeObject(m_data));
+                string json = JsonConvert.SerializeObject(m_data);
+                MessageBox.Show(json);
+                File.WriteAllText(_dialog.FileName, json);
 
                 FileNameButton.Content = _dialog.FileName;
                 FileNameButton.HorizontalContentAlignment = HorizontalAlignment.Left;
@@ -153,6 +155,14 @@ namespace Serie_List_Editor
 
             MakeGrid();
             DrawContent();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            //Uri sourceHTTP = new Uri($"http://www.omdbapi.com/?t={lastFocusedTitle}");
+            DisplayInfo display = new DisplayInfo();
+
+            display.ShowDialog();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Serie_List_Editor
 
         private string OldText = "";
         private int? oldNum = null;
+        private string lastFocusedTitle = "";
 
         private const int m_boxHeight = 20;
         private const int m_boxWidth = 70;
@@ -75,12 +76,13 @@ namespace Serie_List_Editor
                     Width = m_boxWidth * 1.5f,
                     Text = m_data.Title[i],
                 };
-                _titleTextBlock.GotFocus += TitleTextBlock_GotFocus;
-                _titleTextBlock.TextChanged += TitleTextBlock_TextChanged;
 
                 Grid.SetColumn(_titleTextBlock, 0);
                 Grid.SetRow(_titleTextBlock, i);
                 m_grid.Children.Add(_titleTextBlock);
+
+                _titleTextBlock.GotFocus += TitleTextBlock_GotFocus;
+                _titleTextBlock.TextChanged += TitleTextBlock_TextChanged;
 
                 //Season
                 ComboBox _boxSeason = new ComboBox
@@ -89,17 +91,18 @@ namespace Serie_List_Editor
                     Width = m_boxWidth,
                     SelectedValue = m_data.Season[i],
                 };
-                _boxSeason.GotFocus += BoxSeason_GotFocus;
-                _boxSeason.SelectionChanged += BoxSeason_DataContextChanged;
-
-                Grid.SetColumn(_boxSeason, 1);
-                Grid.SetRow(_boxSeason, i);
-                m_grid.Children.Add(_boxSeason);
 
                 for (int j = 0; j < 100; j++)
                 {
                     _boxSeason.Items.Add(j + 1);
                 }
+
+                Grid.SetColumn(_boxSeason, 1);
+                Grid.SetRow(_boxSeason, i);
+                m_grid.Children.Add(_boxSeason);
+
+                _boxSeason.GotFocus += BoxSeason_GotFocus;
+                _boxSeason.SelectionChanged += BoxSeason_DataContextChanged;
 
                 //Episode number
                 ComboBox _boxEpisode = new ComboBox
@@ -108,16 +111,18 @@ namespace Serie_List_Editor
                     Width = m_boxWidth,
                     SelectedValue = m_data.Episode[i]
                 };
-                _boxEpisode.DataContextChanged += BoxEpisode_DataContextChanged;
+
+                for (int j = 0; j <= 100; j++)
+                {
+                    _boxEpisode.Items.Add(j);
+                }
 
                 Grid.SetColumn(_boxEpisode, 2);
                 Grid.SetRow(_boxEpisode, i);
                 m_grid.Children.Add(_boxEpisode);
 
-                for (int j = 0; j < 100; j++)
-                {
-                    _boxEpisode.Items.Add(j + 1);
-                }
+                _boxEpisode.GotFocus += BoxEpisode_GotFocus;
+                _boxEpisode.SelectionChanged += BoxEpisode_DataContextChanged;
 
                 //NoteBox
                 TextBox _noteTextBlock = new TextBox()
@@ -127,10 +132,8 @@ namespace Serie_List_Editor
                     Background = Brushes.Gray,
                     Height = m_boxHeight,
                     Width = m_boxWidth,
-                    //Text = (m_data.Note.Count == m_data.Title.Count) ? m_data.Note[i] : "Empty Note",
+                    Text = (m_data.Note.Count == m_data.Title.Count) ? m_data.Note[i] : "Empty Note",
                 };
-                _noteTextBlock.TextChanged += NoteTextBlock_TextChanged;
-                _noteTextBlock.GotFocus += NoteTextBlock_GotFocus;
 
                 if (m_data.Note.Count == m_data.Title.Count)
                 {
@@ -141,6 +144,8 @@ namespace Serie_List_Editor
                     m_data.Note.Add("Empty Note");
                     _noteTextBlock.Text = "Empty Note";
                 }
+                _noteTextBlock.TextChanged += NoteTextBlock_TextChanged;
+                _noteTextBlock.GotFocus += NoteTextBlock_GotFocus;
 
                 //TODO setcoolumn
                 //TODO setrow
@@ -149,60 +154,74 @@ namespace Serie_List_Editor
             }
         }
 
-        /// <summary>Function that gets called when the ComboBox of the episode list is changed</summary>
-        private void BoxEpisode_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        #region combo box Season and Episode
+
+        // Episode combo box
+        private void BoxEpisode_GotFocus(object sender, RoutedEventArgs e)
         {
-            int _index = m_data.Season.IndexOf((int)e.OldValue);
-            MessageBox.Show($"{_index}");
-            m_data.Season[_index] = (int)e.NewValue;
-            MessageBox.Show($"{e.NewValue}");
+            var _num = e.Source as ComboBox;
+            oldNum = _num.SelectedIndex;
+
+            lastFocusedTitle = m_data.Title[m_data.Episode.IndexOf(oldNum)];
         }
 
+        private void BoxEpisode_DataContextChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int _index = m_data.Season.IndexOf(oldNum);
+            var _num = e.Source as ComboBox;
+            m_data.Season[_index] = _num.SelectedIndex + 1;
+        }
+
+        // Season combo box
         private void BoxSeason_GotFocus(object sender, RoutedEventArgs e)
         {
-            var _num = e.OriginalSource as ComboBox;
-            oldNum = _num.SelectedIndex;
+            var _num = e.Source as ComboBox;
+            oldNum = _num.SelectedIndex + 1;
+
+            lastFocusedTitle = m_data.Title[m_data.Season.IndexOf(oldNum)];
         }
 
-        /// <summary>Function that gets called when the ComboBox of the season list is changed</summary>
         private void BoxSeason_DataContextChanged(object sender, SelectionChangedEventArgs e)
         {
             int _index = m_data.Season.IndexOf(oldNum);
-            //MessageBox.Show($"{_index}");
-            MessageBox.Show($"{e.Source}");
-            m_data.Season[_index] = (int)e.Source;
+            var _num = e.Source as ComboBox;
+            m_data.Season[_index] = _num.SelectedIndex + 1;
 
             //TODO indexof()
         }
 
-        /// <summary>On note TextBlock focus</summary>
+        #endregion combo box Season and Episode
+
+        // Note text block
         private void NoteTextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show($"{e.Source}");
+            var _text = e.OriginalSource as TextBlock;
+            m_data.Note[m_data.Note.IndexOf(OldText)] = _text.Text;
+
+            lastFocusedTitle = m_data.Title[m_data.Note.IndexOf(_text.Text)];
         }
 
-        /// <summary>On note TextBlock changed</summary>
         private void NoteTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
-            MessageBox.Show($"{e.Source}");
+            var _text = e.OriginalSource as TextBlock;
+            m_data.Note[m_data.Note.IndexOf(OldText)] = _text.Text;
         }
 
-        /// <summary>On title TextBlock focus</summary>
+        //Title text block
         private void TitleTextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
             OldText = _text.Text;
-            MessageBox.Show(OldText);
+
+            lastFocusedTitle = m_data.Title[m_data.Title.IndexOf(_text.Text)];
         }
 
-        /// <summary>On title TextBlock changed</summary>
         private void TitleTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
-            //m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
-            //MessageBox.Show(e.Source.ToString());
-
-            //https://stackoverflow.com/questions/27311082/how-to-get-old-text-and-changed-text-of-textbox-on-textchanged-event-of-textbox
+            m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
         }
+
+        //https://stackoverflow.com/questions/27311082/how-to-get-old-text-and-changed-text-of-textbox-on-textchanged-event-of-textbox
     }
 }
