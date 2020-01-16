@@ -159,8 +159,8 @@ namespace Serie_List_Editor
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            //Uri sourceHTTP = new Uri($"http://www.omdbapi.com/?t={lastFocusedTitle}");
-            DisplayInfo display = new DisplayInfo();
+            string sourceHTTP = $"http://www.omdbapi.com/?i=tt3896198&apikey=b008dfb6&t={lastFocusedTitle}";
+            DisplayInfo display = new DisplayInfo(sourceHTTP);
 
             display.ShowDialog();
         }

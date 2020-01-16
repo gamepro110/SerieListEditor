@@ -28,12 +28,15 @@ namespace Serie_List_Editor
             InitializeComponent();
         }
 
-        public DisplayInfo(Uri source)
+        public DisplayInfo(string source)
         {
             InitializeComponent();
 
-            MessageBox.Show($"");
-            //JArray jsonData = JArray.Parse($"{www.GetResponse()}");
+            string responce = GetWebPage(source);
+
+            JArray jsonData = JArray.Parse(responce);
+
+            MessageBox.Show(jsonData[0].ToString());
 
             //Uri titleImg = new Uri("https://upload.wikimedia.org/wikipedia/commons/3/30/Googlelogo.png");
             //ImgBlock.Source = new BitmapImage(titleImg);
@@ -42,5 +45,20 @@ namespace Serie_List_Editor
         }
 
         //display movie api from
+        private string GetWebPage(string address)
+        {
+            string responseText;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (StreamReader responseStream = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8")))
+                {
+                    responseText = responseStream.ReadToEnd();
+                }
+            }
+
+            return responseText;
+        }
     }
 }
