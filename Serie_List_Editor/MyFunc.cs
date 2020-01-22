@@ -223,7 +223,7 @@ namespace Serie_List_Editor
         private void TitleTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
-            m_data.Title[m_data.Title.IndexOf(_text.Text)] = _text.Text;
+            m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
         }
 
         #endregion TextBlocks Title and Note
