@@ -16,6 +16,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using OMDbApiNet;
+using OMDbApiNet.Model;
+using OMDbApiNet.Utilities;
 
 namespace Serie_List_Editor
 {
@@ -143,26 +146,31 @@ namespace Serie_List_Editor
 
         private void New_Entry_Button_Click(object sender, RoutedEventArgs e)
         {
-            MakeGrid();
             m_data.AddNewEntry("Title", null, null, "Empty note");
-
+            MakeGrid();
             DrawContent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Delete_Last_Entry_Button_Click(object sender, RoutedEventArgs e)
         {
             m_data.RemoveEntry(m_data.Title.Count - 1);
-
             MakeGrid();
             DrawContent();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Display_Online_Info_Button_Click(object sender, RoutedEventArgs e)
         {
-            string sourceHTTP = $"http://www.omdbapi.com/?i=tt3896198&apikey=b008dfb6&t={lastFocusedTitle}";
-            DisplayInfo display = new DisplayInfo(sourceHTTP);
-
-            display.ShowDialog();
+            try
+            {
+                OmdbClient _client = new OmdbClient(MyConsts.API_KEY);
+                Item _responce = _client.GetItemByTitle(lastFocusedTitle, true);
+                DisplayInfo display = new DisplayInfo(_responce);
+                display.ShowDialog();
+            }
+            catch (Exception EX)
+            {
+                MessageBox.Show($"{EX.Message}", "Title Not Found \nPlease enter a valid Title", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

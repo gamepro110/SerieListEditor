@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using OMDbApiNet;
+using OMDbApiNet.Model;
+using OMDbApiNet.Utilities;
 
 namespace Serie_List_Editor
 {
@@ -28,37 +30,14 @@ namespace Serie_List_Editor
             InitializeComponent();
         }
 
-        public DisplayInfo(string source)
+        public DisplayInfo(OMDbApiNet.Model.Item _item)
         {
             InitializeComponent();
-
-            string responce = GetWebPage(source);
-
-            JArray jsonData = JArray.Parse(responce);
-
-            MessageBox.Show(jsonData[0].ToString());
-
-            //Uri titleImg = new Uri("https://upload.wikimedia.org/wikipedia/commons/3/30/Googlelogo.png");
-            //ImgBlock.Source = new BitmapImage(titleImg);
-            //TitleBlock.Text = "no title yet";
-            //DescriptionBlock.Text = "no description yet";
-        }
-
-        //display movie api from
-        private string GetWebPage(string address)
-        {
-            string responseText;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(address);
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            {
-                using (StreamReader responseStream = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("utf-8")))
-                {
-                    responseText = responseStream.ReadToEnd();
-                }
-            }
-
-            return responseText;
+            ImgBlock.Source = new BitmapImage(new Uri(_item.Poster));
+            TitleBlock.Text = _item.Title;
+            DescriptionBlock.Document.Blocks.Clear();
+            DescriptionBlock.Document.Blocks.Add(new Paragraph(new Run(_item.Plot)));
+            GenInfo.Text = $"Type: {_item.Type}\tYear: {_item.Year}\tRated: {_item.Rated}";
         }
     }
 }

@@ -12,7 +12,7 @@
         <Button x:Name="FileNameButton" Content="Button" Margin="10,0,10,10" Click="FileNameButton_Click" Background="{x:Null}" BorderBrush="#FF1B1B1C" Foreground="#FFFFE100" Height="30" VerticalAlignment="Bottom" />
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top" Width="100" Height="30" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Click="Save_Click" />
         <Button Content="New Entry" Margin="10,0,0,50" HorizontalAlignment="Left" Width="100" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Height="30" VerticalAlignment="Bottom" Click="New_Entry_Button_Click" />
-        <Button Content="Delete Last Entry" HorizontalAlignment="Left" Margin="110,0,0,50" Width="100" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Click="Button_Click" Height="30" VerticalAlignment="Bottom" />
-        <Button Content="test info" HorizontalAlignment="Right" Margin="0,0,10,50" VerticalAlignment="Bottom" Width="100" Click="Button_Click_1" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Height="30" />
+        <Button Content="Delete Last Entry" HorizontalAlignment="Left" Margin="110,0,0,50" Width="100" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Click="Delete_Last_Entry_Button_Click" Height="30" VerticalAlignment="Bottom" />
+        <Button Content="test info" HorizontalAlignment="Right" Margin="0,0,10,50" VerticalAlignment="Bottom" Width="100" Click="Display_Online_Info_Button_Click" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Height="30" />
     </Grid>
 </Window>

@@ -151,6 +151,8 @@ namespace Serie_List_Editor
                 //TODO setrow
                 //TODO add to m_grid children
                 //TODO Rearange the components so everything is visable
+
+                lastFocusedTitle = m_data.Title[0];
             }
         }
 
@@ -192,6 +194,8 @@ namespace Serie_List_Editor
 
         #endregion combo box Season and Episode
 
+        #region TextBlocks Title and Note
+
         // Note text block
         private void NoteTextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -219,22 +223,11 @@ namespace Serie_List_Editor
         private void TitleTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
-            m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
+            m_data.Title[m_data.Title.IndexOf(_text.Text)] = _text.Text;
         }
+
+        #endregion TextBlocks Title and Note
 
         //https://stackoverflow.com/questions/27311082/how-to-get-old-text-and-changed-text-of-textbox-on-textchanged-event-of-textbox
-
-        public static string ToHexString(string str)
-        {
-            var sb = new StringBuilder();
-
-            var bytes = Encoding.Unicode.GetBytes(str);
-            foreach (var t in bytes)
-            {
-                sb.Append(t.ToString("X2"));
-            }
-
-            return sb.ToString(); // returns: "48656C6C6F20776F726C64" for "Hello world"
-        }
     }
 }
