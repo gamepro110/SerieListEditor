@@ -224,6 +224,8 @@ namespace Serie_List_Editor
         {
             var _text = e.OriginalSource as TextBox;
             m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
+
+            //Add on focus lost to changed the data
         }
 
         #endregion TextBlocks Title and Note
