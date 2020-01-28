@@ -113,9 +113,9 @@ namespace Serie_List_Editor
                     SelectedValue = m_data.Episode[i]
                 };
 
-                for (int j = 0; j <= 100; j++)
+                for (int j = 0; j < 100; j++)
                 {
-                    _boxEpisode.Items.Add(j);
+                    _boxEpisode.Items.Add(j + 1);
                 }
 
                 Grid.SetColumn(_boxEpisode, 2);
@@ -163,16 +163,17 @@ namespace Serie_List_Editor
         private void BoxEpisode_GotFocus(object sender, RoutedEventArgs e)
         {
             var _num = e.Source as ComboBox;
-            oldNum = _num.SelectedIndex;
+            oldNum = _num.SelectedIndex + 1;
 
-            lastFocusedTitle = m_data.Title[m_data.Episode.IndexOf(oldNum)];
+            int index = m_data.Episode.IndexOf(oldNum);
+            lastFocusedTitle = m_data.Title[index];
         }
 
         private void BoxEpisode_DataContextChanged(object sender, SelectionChangedEventArgs e)
         {
-            int _index = m_data.Season.IndexOf(oldNum);
+            int _index = m_data.Episode.IndexOf(oldNum);
             var _num = e.Source as ComboBox;
-            m_data.Season[_index] = _num.SelectedIndex + 1;
+            m_data.Episode[_index] = _num.SelectedIndex + 1;
             //TODO check whhy broken
         }
 
@@ -182,7 +183,8 @@ namespace Serie_List_Editor
             var _num = e.Source as ComboBox;
             oldNum = _num.SelectedIndex + 1;
 
-            lastFocusedTitle = m_data.Title[m_data.Season.IndexOf(oldNum)];
+            int index = m_data.Season.IndexOf(oldNum);
+            lastFocusedTitle = m_data.Title[index];
         }
 
         private void BoxSeason_DataContextChanged(object sender, SelectionChangedEventArgs e)
