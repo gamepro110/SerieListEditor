@@ -99,21 +99,28 @@ namespace Serie_List_Editor
 
         private void Create_Temp_Button_Click(object sender, RoutedEventArgs e)
         {
-            SaveDataJson _data = new SaveDataJson();
-
-            _data.AddNewEntry("Arrow", 03, 16);
-            _data.AddNewEntry("Flash", 05, 06);
-            _data.AddNewEntry("The 100", 01, 37);
-
-            SaveFileDialog _dialog = new SaveFileDialog
+            try
             {
-                Filter = MyConsts.JsonFilter,
-                InitialDirectory = $"{RootPath}\\{RootFolderName}"
-            };
+                SaveDataJson _data = new SaveDataJson(true);
 
-            if (_dialog.ShowDialog() == true)
+                _data.AddNewEntry("Arrow", 5, 9);
+                _data.AddNewEntry("Flash", 3, 5);
+                _data.AddNewEntry("The 100", 3);
+
+                SaveFileDialog _dialog = new SaveFileDialog
+                {
+                    Filter = MyConsts.JsonFilter,
+                    InitialDirectory = $"{RootPath}\\{RootFolderName}",
+                };
+
+                if (_dialog.ShowDialog() == true)
+                {
+                    File.WriteAllText(_dialog.FileName, JsonConvert.SerializeObject(_data, Formatting.Indented));
+                }
+            }
+            catch (Exception EX)
             {
-                File.WriteAllText(_dialog.FileName, JsonConvert.SerializeObject(_data, Formatting.Indented));
+                MessageBox.Show(EX.Message);
             }
         }
 
