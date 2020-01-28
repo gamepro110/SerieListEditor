@@ -17,7 +17,8 @@ namespace Serie_List_Editor
         internal static string RootPath => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         private string OldText = "";
-        private int? oldNum = null;
+        private string OldNoteText = "";
+        private int oldNum = 1;
         private string lastFocusedTitle = "";
 
         private const int m_boxHeight = 20;
@@ -59,6 +60,7 @@ namespace Serie_List_Editor
             m_grid.ColumnDefinitions.Add(new ColumnDefinition());// title
             m_grid.ColumnDefinitions.Add(new ColumnDefinition());// season
             m_grid.ColumnDefinitions.Add(new ColumnDefinition());// episode
+            m_grid.ColumnDefinitions.Add(new ColumnDefinition());// notes
             //add one here for the notes
 
             //amount of rows for the seasons and
@@ -82,7 +84,6 @@ namespace Serie_List_Editor
                 m_grid.Children.Add(_titleTextBlock);
 
                 _titleTextBlock.GotFocus += TitleTextBlock_GotFocus;
-                _titleTextBlock.TextChanged += TitleTextBlock_TextChanged;
                 _titleTextBlock.LostFocus += TitleTextBlock_LostFocus;
 
                 //Season
@@ -145,13 +146,12 @@ namespace Serie_List_Editor
                     m_data.Note.Add("Empty Note");
                     _noteTextBlock.Text = "Empty Note";
                 }
-                _noteTextBlock.TextChanged += NoteTextBlock_TextChanged;
                 _noteTextBlock.GotFocus += NoteTextBlock_GotFocus;
+                _noteTextBlock.LostFocus += NoteTextBlock_LostFocus;
 
-                //TODO setcoolumn
-                //TODO setrow
-                //TODO add to m_grid children
-                //TODO Rearange the components so everything is visable
+                Grid.SetColumn(_noteTextBlock, 3);
+                Grid.SetRow(_noteTextBlock, i);
+                m_grid.Children.Add(_noteTextBlock);
 
                 lastFocusedTitle = m_data.Title[0];
             }
@@ -166,6 +166,7 @@ namespace Serie_List_Editor
             oldNum = _num.SelectedIndex + 1;
 
             int index = m_data.Episode.IndexOf(oldNum);
+
             lastFocusedTitle = m_data.Title[index];
         }
 
@@ -203,16 +204,18 @@ namespace Serie_List_Editor
         // Note text block
         private void NoteTextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
-            var _text = e.OriginalSource as TextBlock;
-            m_data.Note[m_data.Note.IndexOf(OldText)] = _text.Text;
+            var _text = e.OriginalSource as TextBox;
+            OldNoteText = _text.Text;
 
             lastFocusedTitle = m_data.Title[m_data.Note.IndexOf(_text.Text)];
         }
 
-        private void NoteTextBlock_TextChanged(object sender, TextChangedEventArgs e)
+        private void NoteTextBlock_LostFocus(object sender, RoutedEventArgs e)
         {
-            var _text = e.OriginalSource as TextBlock;
-            m_data.Note[m_data.Note.IndexOf(OldText)] = _text.Text;
+            var _text = e.OriginalSource as TextBox;
+            m_data.Note[m_data.Note.IndexOf(OldNoteText)] = _text.Text;
+
+            lastFocusedTitle = m_data.Title[m_data.Note.IndexOf(OldNoteText)];
         }
 
         //Title text block
@@ -224,14 +227,6 @@ namespace Serie_List_Editor
             lastFocusedTitle = m_data.Title[m_data.Title.IndexOf(_text.Text)];
         }
 
-        private void TitleTextBlock_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //var _text = e.OriginalSource as TextBox;
-            //m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
-
-            //Add on focus lost to changed the data
-        }
-
         private void TitleTextBlock_LostFocus(object sender, RoutedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
@@ -241,7 +236,5 @@ namespace Serie_List_Editor
         }
 
         #endregion TextBlocks Title and Note
-
-        //https://stackoverflow.com/questions/27311082/how-to-get-old-text-and-changed-text-of-textbox-on-textchanged-event-of-textbox
     }
 }

@@ -31,6 +31,7 @@ namespace Serie_List_Editor
         private SaveDataJson m_data = new SaveDataJson();
 
         private Grid m_grid;
+        private string m_file = "";
 
         public MainWindow()
         {
@@ -78,7 +79,7 @@ namespace Serie_List_Editor
 
             if (_dialog.ShowDialog() == true)
             {
-                string m_file = _dialog.FileName;
+                m_file = _dialog.FileName;
                 FileNameButton.Content = _dialog.FileName;
                 FileNameButton.HorizontalContentAlignment = HorizontalAlignment.Left;
 
@@ -116,7 +117,17 @@ namespace Serie_List_Editor
             }
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void Save_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (m_file != "")
+            {
+                string json = JsonConvert.SerializeObject(m_data);
+                MessageBox.Show(json);
+                File.WriteAllText(m_file, json);
+            }
+        }
+
+        private void Save_As_Button_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog _dialog = new SaveFileDialog()
             {
@@ -131,22 +142,26 @@ namespace Serie_List_Editor
                 MessageBox.Show(json);
                 File.WriteAllText(_dialog.FileName, json);
 
-                FileNameButton.Content = _dialog.FileName;
+                FileNameButton.Content = $"File Location: {_dialog.FileName}";
                 FileNameButton.HorizontalContentAlignment = HorizontalAlignment.Left;
             }
         }
 
-        private void FileNameButton_Click(object sender, RoutedEventArgs e)
+        private void File_folder_Button_Click(object sender, RoutedEventArgs e)
         {
             if ((string)FileNameButton.Content != MyConsts.NoFileYet)
             {
                 Process.Start($"{GetFileFolder((string)FileNameButton.Content)}");
             }
+            else
+            {
+                Process.Start($"{RootPath}\\{RootFolderName}");
+            }
         }
 
         private void New_Entry_Button_Click(object sender, RoutedEventArgs e)
         {
-            m_data.AddNewEntry("Title", null, null, "Empty note");
+            m_data.AddNewEntry("New Title", 1, 1, "Empty Note");
             MakeGrid();
             DrawContent();
         }
@@ -162,10 +177,18 @@ namespace Serie_List_Editor
         {
             try
             {
-                OmdbClient _client = new OmdbClient(MyConsts.API_KEY);
-                Item _responce = _client.GetItemByTitle(lastFocusedTitle, true);
-                DisplayInfo display = new DisplayInfo(_responce);
-                display.ShowDialog();
+                if (lastFocusedTitle != null && lastFocusedTitle != "")
+                {
+                    OmdbClient _client = new OmdbClient(MyConsts.API_KEY);
+                    Item _responce = _client.GetItemByTitle(lastFocusedTitle, true);
+                    DisplayInfo display = new DisplayInfo(_responce);
+                    display.ShowDialog();
+                }
+                else
+                {
+                    DisplayInfo display = new DisplayInfo();
+                    display.ShowDialog();
+                }
             }
             catch (Exception EX)
             {

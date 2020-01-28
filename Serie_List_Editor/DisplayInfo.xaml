@@ -5,17 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Serie_List_Editor"
         mc:Ignorable="d"
-        Title="DisplayInfo" Height="450" Width="800" WindowStartupLocation="CenterOwner" Topmost="True" Background="#FF333333" ResizeMode="NoResize" ShowInTaskbar="False">
+        Title="DisplayInfo (online)" Height="450" Width="800" WindowStartupLocation="CenterOwner" Topmost="True" Background="#FF333333" ResizeMode="NoResize" ShowInTaskbar="False" WindowStyle="ToolWindow">
     <Grid>
         <Image x:Name="ImgBlock" Margin="10,10,614,191" IsEnabled="False" Source="csharp.png" StretchDirection="DownOnly" />
-        <TextBlock x:Name="TitleBlock" Margin="185,10,40,371" TextWrapping="Wrap" Text="Title Block" Foreground="Yellow" FontSize="24" />
-        <TextBlock x:Name="GenInfo" Margin="185,55,40,331" TextWrapping="Wrap" Text="Plot/Description Block" Foreground="Yellow" FontSize="14" IsEnabled="False" />
+        <TextBlock x:Name="TitleBlock" Margin="185,10,40,371" TextWrapping="Wrap" Text="Title" Foreground="Yellow" FontSize="24" />
+        <TextBlock x:Name="GenInfo" Margin="185,55,40,331" TextWrapping="Wrap" Foreground="Yellow" FontSize="14" IsEnabled="False" Text="Gen Info" />
         <RichTextBox x:Name="DescriptionBlock" Height="226" Margin="185,95,40,100" Width="569" IsReadOnlyCaretVisible="True" VerticalScrollBarVisibility="Visible" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" SelectionBrush="{x:Null}" FontSize="18">
             <FlowDocument Focusable="False" IsHyphenationEnabled="True">
                 <Paragraph>
-                    <Run Text="" />
+                    <Run Text="Description" />
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
+        <Button Content="Button" Margin="684,381,10,10" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Click="Open_link_Button_Click" />
+        <TextBlock x:Name="SerieInfoBlock" HorizontalAlignment="Left" Margin="10,235,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="86" Width="170" Foreground="Yellow" />
     </Grid>
 </Window>
