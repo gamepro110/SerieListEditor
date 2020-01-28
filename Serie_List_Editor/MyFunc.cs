@@ -83,6 +83,7 @@ namespace Serie_List_Editor
 
                 _titleTextBlock.GotFocus += TitleTextBlock_GotFocus;
                 _titleTextBlock.TextChanged += TitleTextBlock_TextChanged;
+                _titleTextBlock.LostFocus += TitleTextBlock_LostFocus;
 
                 //Season
                 ComboBox _boxSeason = new ComboBox
@@ -172,6 +173,7 @@ namespace Serie_List_Editor
             int _index = m_data.Season.IndexOf(oldNum);
             var _num = e.Source as ComboBox;
             m_data.Season[_index] = _num.SelectedIndex + 1;
+            //TODO check whhy broken
         }
 
         // Season combo box
@@ -222,10 +224,18 @@ namespace Serie_List_Editor
 
         private void TitleTextBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //var _text = e.OriginalSource as TextBox;
+            //m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
+
+            //Add on focus lost to changed the data
+        }
+
+        private void TitleTextBlock_LostFocus(object sender, RoutedEventArgs e)
+        {
             var _text = e.OriginalSource as TextBox;
             m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
 
-            //Add on focus lost to changed the data
+            lastFocusedTitle = m_data.Title[m_data.Title.IndexOf(_text.Text)];
         }
 
         #endregion TextBlocks Title and Note
