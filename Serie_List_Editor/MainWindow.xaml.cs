@@ -1,6 +1,10 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using Newtonsoft.Json;
+using OMDbApiNet;
+using OMDbApiNet.Model;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,7 +66,6 @@ namespace Serie_List_Editor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-                throw ex;
             }
         }
 
