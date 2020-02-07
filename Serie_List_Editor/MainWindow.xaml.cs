@@ -183,10 +183,10 @@ namespace Serie_List_Editor
         {
             try
             {
-                if (lastFocusedTitle != null && lastFocusedTitle != "")
+                if (m_lastFocusedTitle != null && m_lastFocusedTitle != "")
                 {
                     OmdbClient _client = new OmdbClient(MyConsts.API_KEY);
-                    Item _responce = _client.GetItemByTitle(lastFocusedTitle, true);
+                    Item _responce = _client.GetItemByTitle(m_lastFocusedTitle, true);
                     DisplayInfo display = new DisplayInfo(_responce);
                     display.ShowDialog();
                 }

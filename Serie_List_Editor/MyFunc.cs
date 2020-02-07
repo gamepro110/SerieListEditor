@@ -16,10 +16,10 @@ namespace Serie_List_Editor
 
         internal static string RootPath => Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        private string OldText = "";
-        private string OldNoteText = "";
-        private int oldNum = 1;
-        private string lastFocusedTitle = "";
+        private string m_oldText = "";
+        private string m_oldNoteText = "";
+        private int m_oldNum = 1;
+        private string m_lastFocusedTitle = "";
 
         private const int m_boxHeight = 20;
         private const int m_boxWidth = 70;
@@ -153,7 +153,7 @@ namespace Serie_List_Editor
                 Grid.SetRow(_noteTextBlock, i);
                 m_grid.Children.Add(_noteTextBlock);
 
-                lastFocusedTitle = m_data.Title[0];
+                m_lastFocusedTitle = m_data.Title[0];
             }
         }
 
@@ -163,16 +163,16 @@ namespace Serie_List_Editor
         private void BoxEpisode_GotFocus(object sender, RoutedEventArgs e)
         {
             var _num = e.Source as ComboBox;
-            oldNum = _num.SelectedIndex + 1;
+            m_oldNum = _num.SelectedIndex + 1;
 
-            int index = m_data.Episode.IndexOf(oldNum);
+            int index = m_data.Episode.IndexOf(m_oldNum);
 
-            lastFocusedTitle = m_data.Title[index];
+            m_lastFocusedTitle = m_data.Title[index];
         }
 
         private void BoxEpisode_DataContextChanged(object sender, SelectionChangedEventArgs e)
         {
-            int _index = m_data.Episode.IndexOf(oldNum);
+            int _index = m_data.Episode.IndexOf(m_oldNum);
             var _num = e.Source as ComboBox;
             m_data.Episode[_index] = _num.SelectedIndex + 1;
             //TODO check whhy broken
@@ -182,15 +182,15 @@ namespace Serie_List_Editor
         private void BoxSeason_GotFocus(object sender, RoutedEventArgs e)
         {
             var _num = e.Source as ComboBox;
-            oldNum = _num.SelectedIndex + 1;
+            m_oldNum = _num.SelectedIndex + 1;
 
-            int index = m_data.Season.IndexOf(oldNum);
-            lastFocusedTitle = m_data.Title[index];
+            int index = m_data.Season.IndexOf(m_oldNum);
+            m_lastFocusedTitle = m_data.Title[index];
         }
 
         private void BoxSeason_DataContextChanged(object sender, SelectionChangedEventArgs e)
         {
-            int _index = m_data.Season.IndexOf(oldNum);
+            int _index = m_data.Season.IndexOf(m_oldNum);
             var _num = e.Source as ComboBox;
             m_data.Season[_index] = _num.SelectedIndex + 1;
 
@@ -205,34 +205,34 @@ namespace Serie_List_Editor
         private void NoteTextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
-            OldNoteText = _text.Text;
+            m_oldNoteText = _text.Text;
 
-            lastFocusedTitle = m_data.Title[m_data.Note.IndexOf(_text.Text)];
+            m_lastFocusedTitle = m_data.Title[m_data.Note.IndexOf(_text.Text)];
         }
 
         private void NoteTextBlock_LostFocus(object sender, RoutedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
-            m_data.Note[m_data.Note.IndexOf(OldNoteText)] = _text.Text;
+            m_data.Note[m_data.Note.IndexOf(m_oldNoteText)] = _text.Text;
 
-            lastFocusedTitle = m_data.Title[m_data.Note.IndexOf(OldNoteText)];
+            m_lastFocusedTitle = m_data.Title[m_data.Note.IndexOf(m_oldNoteText)];
         }
 
         //Title text block
         private void TitleTextBlock_GotFocus(object sender, RoutedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
-            OldText = _text.Text;
+            m_oldText = _text.Text;
 
-            lastFocusedTitle = m_data.Title[m_data.Title.IndexOf(_text.Text)];
+            m_lastFocusedTitle = m_data.Title[m_data.Title.IndexOf(_text.Text)];
         }
 
         private void TitleTextBlock_LostFocus(object sender, RoutedEventArgs e)
         {
             var _text = e.OriginalSource as TextBox;
-            m_data.Title[m_data.Title.IndexOf(OldText)] = _text.Text;
+            m_data.Title[m_data.Title.IndexOf(m_oldText)] = _text.Text;
 
-            lastFocusedTitle = m_data.Title[m_data.Title.IndexOf(_text.Text)];
+            m_lastFocusedTitle = m_data.Title[m_data.Title.IndexOf(_text.Text)];
         }
 
         #endregion TextBlocks Title and Note
