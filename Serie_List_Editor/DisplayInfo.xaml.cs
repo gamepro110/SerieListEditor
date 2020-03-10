@@ -33,7 +33,7 @@ namespace Serie_List_Editor
             InitializeComponent();
         }
 
-        public DisplayInfo(OMDbApiNet.Model.Item _item)
+        public DisplayInfo(Item _item)
         {
             m_item = _item;
             InitializeComponent();
