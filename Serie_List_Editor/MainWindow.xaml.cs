@@ -37,7 +37,7 @@ namespace Serie_List_Editor
             //starting the program
             InitializeComponent();
 
-            MakeGrid();
+            UpdateUI();
 
             FileNameButton.Content = MyConsts.NoFileYet;
             FileNameButton.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -68,7 +68,7 @@ namespace Serie_List_Editor
 
         private void WindowSizeChange(object sender, SizeChangedEventArgs args)
         {
-            if (args.HeightChanged && args.PreviousSize.Height > 500)
+            if (args.HeightChanged)
             {
                 UpdateUI();
             }
@@ -175,15 +175,13 @@ namespace Serie_List_Editor
         private void New_Entry_Button_Click(object sender, RoutedEventArgs e)
         {
             m_data.AddNewEntry("New Title", 1, 1, "Empty Note");
-            MakeGrid();
-            DrawContent();
+            UpdateUI();
         }
 
         private void Delete_Last_Entry_Button_Click(object sender, RoutedEventArgs e)
         {
             m_data.RemoveEntry(m_data.Title.Count - 1);
-            MakeGrid();
-            DrawContent();
+            UpdateUI();
         }
 
         private void Display_Online_Info_Button_Click(object sender, RoutedEventArgs e)
