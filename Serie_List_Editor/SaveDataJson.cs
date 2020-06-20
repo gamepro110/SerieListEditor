@@ -17,10 +17,10 @@ namespace Serie_List_Editor
         {
             if (meh)
             {
-                Title = new List<string>();
-                Episode = new List<int?>();
-                Season = new List<int?>();
-                Note = new List<string>();
+                Title = new List<string>(20);
+                Episode = new List<int?>(20);
+                Season = new List<int?>(20);
+                Note = new List<string>(20);
             }
         }
 
@@ -31,6 +31,14 @@ namespace Serie_List_Editor
 
         public void AddNewEntry(string title = "Title", int season = 1, int episode = 1, string note = "Empty note")
         {
+            if (Title == null)
+            {
+                Title = new List<string>(20);
+                Episode = new List<int?>(20);
+                Season = new List<int?>(20);
+                Note = new List<string>(20);
+            }
+
             Title.Add(title);
             Season.Add(season);
             Episode.Add(episode);

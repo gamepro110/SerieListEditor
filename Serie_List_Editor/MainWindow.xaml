@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Serie_List_Editor"
         mc:Ignorable="d"
-        Title="SerieListEditor (offline)" Height="450" Width="502" Background="#FF282828" BorderBrush="#FF1B1B1C" OpacityMask="#FF1B1B1C" Icon="csharp.png" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
-    <Grid x:Name="BaseGrid" Background="#FF464646">
+        Title="SerieListEditor (offline)" Height="471" Width="474" Background="#FF282828" BorderBrush="#FF1B1B1C" OpacityMask="#FF1B1B1C" Icon="csharp.png" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" MinWidth="430" MinHeight="450">
+    <Grid x:Name="BaseGrid" Background="#FF464646" MinWidth="420" MinHeight="420">
         <Button x:Name="OpenButton" Content="Open File" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Height="30" Click="Open_Button_Click" Cursor="Hand" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" />
         <Button Content="Create Temp" Margin="0,10,10,0" Click="Create_Temp_Button_Click" HorizontalAlignment="Right" Width="100" Height="30" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" />
         <Button x:Name="FileNameButton" Content="Button" Margin="10,0,10,10" Click="File_folder_Button_Click" Background="{x:Null}" BorderBrush="#FF1B1B1C" Foreground="#FFFFE100" Height="30" VerticalAlignment="Bottom" />
@@ -15,5 +15,6 @@
         <Button Content="Delete Last Entry" HorizontalAlignment="Left" Margin="110,0,0,50" Width="100" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Click="Delete_Last_Entry_Button_Click" Height="30" VerticalAlignment="Bottom" />
         <Button Content="Display online Info" HorizontalAlignment="Right" Margin="0,0,10,50" VerticalAlignment="Bottom" Width="120" Click="Display_Online_Info_Button_Click" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Height="30" />
         <Button x:Name="SaveAs" Content="Save as" HorizontalAlignment="Left" Margin="210,10,0,0" VerticalAlignment="Top" Width="100" Height="30" Background="{x:Null}" BorderBrush="Black" Foreground="Yellow" Click="Save_As_Button_Click" />
+        <Grid x:Name="m_grid" Height="270" Margin="10,50,10,0" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" />
     </Grid>
 </Window>

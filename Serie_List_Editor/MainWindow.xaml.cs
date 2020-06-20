@@ -30,7 +30,6 @@ namespace Serie_List_Editor
         //instance of the data to display and save
         private SaveDataJson m_data = new SaveDataJson();
 
-        private Grid m_grid;
         private string m_file = "";
 
         public MainWindow()
@@ -63,12 +62,20 @@ namespace Serie_List_Editor
             {
                 MessageBox.Show(ex.Message);
             }
+
+            SizeChanged += WindowSizeChange;
+        }
+
+        private void WindowSizeChange(object sender, SizeChangedEventArgs args)
+        {
+            if (args.HeightChanged && args.PreviousSize.Height > 500)
+            {
+                UpdateUI();
+            }
         }
 
         private void Open_Button_Click(object sender, RoutedEventArgs e)
         {
-            MakeGrid();
-
             OpenFileDialog _dialog = new OpenFileDialog
             {
                 Filter = MyConsts.JsonFilter,
@@ -87,7 +94,7 @@ namespace Serie_List_Editor
                     m_data = new SaveDataJson();
                     m_data = JsonConvert.DeserializeObject<SaveDataJson>(File.ReadAllText(m_file));
 
-                    DrawContent();
+                    UpdateUI();
                 }
                 catch (Exception ex)
                 {
@@ -183,17 +190,24 @@ namespace Serie_List_Editor
         {
             try
             {
-                if (m_lastFocusedTitle != null && m_lastFocusedTitle != "")
+                if (IsNetworkAvailable)
                 {
-                    OmdbClient _client = new OmdbClient(MyConsts.API_KEY);
-                    Item _responce = _client.GetItemByTitle(m_lastFocusedTitle, true);
-                    DisplayInfo display = new DisplayInfo(_responce);
-                    display.ShowDialog();
+                    if (m_lastFocusedTitle != null && m_lastFocusedTitle != "")
+                    {
+                        OmdbClient _client = new OmdbClient(MyConsts.API_KEY);
+                        Item _responce = _client.GetItemByTitle(m_lastFocusedTitle, true);
+                        DisplayInfo display = new DisplayInfo(_responce);
+                        display.ShowDialog();
+                    }
+                    else
+                    {
+                        DisplayInfo display = new DisplayInfo();
+                        display.ShowDialog();
+                    }
                 }
                 else
                 {
-                    DisplayInfo display = new DisplayInfo();
-                    display.ShowDialog();
+                    MessageBox.Show("No internet connetction found...", "Could not find a connection", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             catch (Exception EX)
